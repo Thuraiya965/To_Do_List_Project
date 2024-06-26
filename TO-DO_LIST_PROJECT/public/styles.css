@@ -1,0 +1,47 @@
+/* Apply box-sizing globally */
+* {
+    box-sizing: border-box;
+}
+/* Set additional styling options for the columns */
+.column {
+    float: left;
+    width: 48%; /* Adjust width to allow for margin */
+    height: 100%;
+    border-radius: 10px; /* Add rounded corners */
+    border: 0.01px solid  grey; /* Thinner border */
+    margin: 1%; /* Add margin to create space between columns */
+    padding: 20px; /* Optional: Add padding for better visuals */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.text{
+text-align: left;
+font-size: 30px;
+}
+
+.sqs-block-button-element--medium {
+  padding: 20px 30px !important;
+  
+}
+
+
+.sqs-block-button-element--medium:after {
+
+content: '➔';
+
+color: black !important;
+
+padding-left: 30px;
+
+margin: 0px 0px 0px 30px;
+
+}
