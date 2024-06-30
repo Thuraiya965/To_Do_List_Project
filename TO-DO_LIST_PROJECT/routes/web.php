@@ -18,12 +18,16 @@ Route::get('/home', function () {
     return view('pages.home');
 });
 
+
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $user = Auth::user();
+    $name = $user->name;
+
+    return view('pages.dashboard', compact('name'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -31,10 +35,12 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+//connecting the registration to the database . more specifically, users table
 Route::get('/register', [RegisteredUserController::class, 'showRegistrationForm'])->name('register');
+//to make sure the database is connected succesfully
 Route::get('/test-db', function () {
     $users = DB::table('users')->get();
     dd($users);
 });
-
+// to call the routes from auth.php for authentication
 require __DIR__.'/auth.php';
