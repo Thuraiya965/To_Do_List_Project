@@ -35,3 +35,33 @@ window.onload = function () {
             });
     });
 };
+
+// public/js/scripts.js
+
+$(document).ready(function() {
+    $('form').submit(function(event) {
+        event.preventDefault();
+        var form = $(this);
+        var url = form.attr('action');
+        var data = form.serialize();
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: data,
+            success: function(data) {
+                console.log('Task created successfully!');
+                // Update the task list here
+            },
+            error: function(xhr, status, error) {
+                console.log('Error creating task:', error);
+            }
+        });
+    });
+
+   });
+
+
+
+
+

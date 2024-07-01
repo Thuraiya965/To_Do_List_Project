@@ -84,3 +84,25 @@ body {
 .todo-item.editing .todo-actions .edit-icon {
     display: none !important;
 }
+
+
+
+/* Task item hover effect */
+.todo-item:hover {
+    background-color: #f0f0f0;
+}
+
+/* Checked task style */
+.todo-list .checked {
+    background: #888;
+    color: #fff;
+    text-decoration: line-through;
+    background: #888;
+  color: #fff;
+  text-decoration: line-through;
+}
+
+
+
+
+  
