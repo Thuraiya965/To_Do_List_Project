@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Auth; // Make sure this line is included
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Task;
 
 class TaskController extends Controller
@@ -12,14 +13,13 @@ class TaskController extends Controller
         $task = new Task();
         $task->title = $request->input('title');
         $task->due_date = $request->input('due_date');
-        $task->status = $request->input('status');
-        $task->user_id = Auth::id(); // Assign the task to the logged-in user
+        $task->status = 1; // Set status to 1 (Active) by default
+        $task->user_id = auth()->user()->id;
         $task->save();
+        return ("added");
 
         return redirect()->route('dashboard');
     }
-
-
 
     public function index()
     {
@@ -30,45 +30,31 @@ class TaskController extends Controller
         return view('pages.dashboard', compact('name', 'tasks'));
     }
 
-   public function toggleStatus(Request $request, Task $task)
-{
-    $task->status = $request->status;
-    $task->save();
+    public function toggleStatus(Request $request, $id)
 
-    return redirect()->route('dashboard'); // Redirect back to the dashboard or wherever you want
-}
-
-
-
-    public function edit($task)
     {
-        $tasks = Task::findOrFail($task);
-
-        return view('pages.edit', compact('tasks'));
+    
+        $task = Task::find($id);
+    
+        if ($task) {
+    
+            $task->status = $task->status == 1? 0 : 1; // Toggle status
+    
+            $task->save();
+    
+            return redirect()->back()->with('success', 'Task status updated successfully!');
+    
+        }
+    
+        return redirect()->back()->with('error', 'Task not found!');
+    
     }
-
-    public function update(Request $request, $task)
+    
+    
+    public function destroy(Task $task)
     {
-        $tasks = Task::findOrFail($task);
-        $tasks->title = $request->input('title');
-        $tasks->due_date = $request->input('due_date');
-        $tasks->status = $request->input('status');
-        $tasks->save();
-
-        return redirect()->route('dashboard')->with('success', 'task updated successfully');
-    }
-
- public function destroy( Task $task) // Correct the variable name to $employee
-    {
-       
         $task->delete();
 
-        return redirect()->route('dashboard')->with('success', 'task  deleted successfully'); // Add the missing semicolon
+        return redirect()->route('dashboard')->with('success', 'Task deleted successfully');
     }
-
-
 }
-
-
-
-

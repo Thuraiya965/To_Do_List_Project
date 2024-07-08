@@ -27,10 +27,9 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [TaskController::class, 'index'])->name('dashboard');
     Route::post('/tasks', [TaskController::class, 'store'])->name('tasks.store');
-    Route::put('/tasks/{task}', [TaskController::class, 'toggleStatus'])->name('tasks.toggleStatus');
+    Route::put('/tasks/{id}/update-status', [TaskController::class, 'toggleStatus'])->name('tasks.toggleStatus');
     Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
 });
-
 Route::middleware('auth')->group(function () {
     
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

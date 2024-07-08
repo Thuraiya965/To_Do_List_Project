@@ -11,10 +11,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.standalone.min.css">
 
 
-    <script src="{{ asset('styles.js') }}"></script>
 
 
-</head>
+
   
     <!-- Other meta tags and stylesheets -->
     <body>
@@ -47,12 +46,7 @@
                             <i class="fa fa-calendar-times-o my-2 px-1 text-danger btn clear-due-date-button d-none" data-toggle="tooltip" data-placement="bottom" title="Clear Due date"></i>
                             <input type="date" name="due_date" class="form-control">
                         </div>
-                        <div class="col-auto px-0 mx-0 mr-2">
-                            <select name="status" class="custom-select custom-select-sm btn my-2">
-                                <option value="active">Active</option>
-                                <option value="completed">Completed</option>
-                            </select>
-                        </div>
+                       
                         <div class="col-auto px-0 mx-0 mr-2">
                             <button type="submit" class="btn btn-primary">Add</button>
                         </div>
@@ -61,23 +55,39 @@
             </div>
         </form>
     <!-- Todo list section -->
-<div class="row mx-1 px-5 pb-3 w-80">
-    <div class="col mx-auto">
-        @foreach($tasks as $task)
-            <div class="row px-3 align-items-center todo-item rounded">
-                <div class="col-auto m-1 p-0 d-flex align-items-center">
-                    <form action="{{ route('tasks.toggleStatus', $task->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-                        <button type="submit" class="btn p-0 m-0">
-                            @if($task->status == 'completed')
-                                <input type="checkbox" name="status" value="completed" checked>
-                            @else
-                                <input type="checkbox" name="status" value="active">
-                            @endif
-                        </button>
-                    </form>
-                </div>
+    <div class="col-auto px-0 mx-0 mr-2">
+                            <select name="status" class="custom-select custom-select-sm btn my-2">
+                                <option value="all">All</option>
+                                <option value="active">Active</option>
+                                <option value="completed">Completed</option>
+                            </select>
+                        </div>
+                       
+    <!-- Todo list section -->
+
+    <div class="row mx-1 px-5 pb-3 w-80">
+
+<div class="col mx-auto">
+
+    @foreach($tasks as $task)
+
+        <div class="row px-3 align-items-center todo-item rounded">
+
+            <div class="col-auto m-1 p-0 d-flex align-items-center">
+
+                <form action="{{ route('tasks.toggleStatus', $task->id) }}"method="POST">
+                    @csrf
+                    @method('PUT')
+                    <button type="submit" class="btn p-0 m-0">
+
+                    <input type="checkbox" id="task-{{ $task->id }}" data-task-id="{{ $task->id }}" {{ $task->status == 0 ? 'checked' : '' }}>
+
+<label for="task-{{ $task->id }}">Task {{ $task->name }}</label>
+                    </button>
+
+                </form>
+
+            </div>
                 <div class="col px-1 m-1 d-flex align-items-center">
                     <input type="text" class="form-control form-control-lg border-0 edit-todo-input bg-transparent rounded px-3" readonly value="{{ $task->title }}" title="{{ $task->title }}" />
                     <input type="text" class="form-control form-control-lg border-0 edit-todo-input rounded px-3 d-none" value="{{ $task->title }}" />
@@ -118,6 +128,33 @@
         @endforeach
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script> 
+$(document).ready(function() {
+    $('input[type="checkbox"]').on('change', function() {
+        var taskId = $(this).data('task-id');
+        var isChecked = $(this).prop('checked') ? 0 : 1; // 0 if checked, 1 if not
+
+        $.ajax({
+            type: 'PUT',
+            url: '/tasks/' + taskId + '/update-status',
+            data: {
+                _token: '@csrf',
+                status: isChecked
+            },
+            success: function(response) {
+                console.log(response.message);
+                alert('success')
+            },
+            error: function(xhr) {
+                console.log(xhr.responseText);
+                alert("Error updating task status");
+            }
+        });
+    });
+});
+
+</script>
 
 
 
@@ -127,5 +164,6 @@
         <script src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('js/scripts.js') }}"></script>
     @endpush
+</head>
 </body>
 </x-app-layout>
