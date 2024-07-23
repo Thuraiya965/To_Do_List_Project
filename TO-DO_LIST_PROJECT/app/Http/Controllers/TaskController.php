@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Task;
+use Session;
 
 class TaskController extends Controller
 {
@@ -56,5 +57,37 @@ class TaskController extends Controller
         $task->delete();
 
         return redirect()->route('dashboard')->with('success', 'Task deleted successfully');
+    }
+
+
+       public function edit($id)
+    {
+        $task = Task::find($id);
+
+        return view('tasks.edit')->with('taskUnderEdit', $task);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+                'updatedTaskName' => 'required|max:255',
+            ]);
+
+        $task = Task::find($id);
+
+        $task->title = $request->updatedTaskName;
+
+        $task->save();
+
+        Session::flash('success', 'Task #' . $id . ' has been successfully updated.');
+
+        return redirect()->route('dashboard');
     }
 }

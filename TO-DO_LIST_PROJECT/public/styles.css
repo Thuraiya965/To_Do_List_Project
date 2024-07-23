@@ -2,13 +2,34 @@
 * {
     box-sizing: border-box;
 }
-/* Set additional styling options for the columns */
+
+.main {
+    padding: 9em;
+}
+
+.main .container .row .col-lg-6 {
+    color: white; /* Set the font color to white */
+}
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+  
+    font-family: "Jost", sans-serif;}
+
+    .button {
+  color: #ffffff;;
+  background: #FFA500;
+  font-family:"Jost",  sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 1px;
+  display: inline-block;
+  padding: 10px 28px 12px 28px;
+  border-radius: 50px;
+  transition: 0.5s;
+    }
 .column {
     float: left;
     width: 48%; /* Adjust width to allow for margin */
     height: 100%;
-    border-radius: 10px; /* Add rounded corners */
-    border: 0.01px solid  grey; /* Thinner border */
     margin: 1%; /* Add margin to create space between columns */
     padding: 20px; /* Optional: Add padding for better visuals */
     display: flex;
@@ -48,9 +69,27 @@ margin: 0px 0px 0px 30px;
 
 /*dashboard css*/
 
-body {
-    font-family: "Open Sans", sans-serif;
-    line-height: 1.6;
+ body h1 {
+    font-family: "Jost", sans-serif !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+    
+  font-weight: 700 !important;
+  line-height: 56px !important;
+}
+
+body p{
+    color: color-mix(in srgb, #e0dada, transparent 50%) !important;
+  margin: 5px 0 30px 0;
+  font-size: 22px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+#icon {
+    width:30px;
+    cursor:pointer;
+
 }
 
 .add-todo-input,
@@ -102,7 +141,21 @@ body {
   text-decoration: line-through;
 }
 
+.image-container {
+    max-width: 50%;
+    text-align: right;
+    float: left;
+}
+.image-container img {
+    max-width: 100%;
+    height: auto;
+    transform: scale(2); /* Zoom out the image */
+}
 
 
 
-  
+
+
+
+
+
